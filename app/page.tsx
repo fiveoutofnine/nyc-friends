@@ -7,7 +7,7 @@ import { db } from '@/lib/db';
 
 import Friend from '@/components/common/friend';
 
-export default async function Page({ searchParams }: { searchParams: { img?: string } }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ img?: string }> }) {
   const images = await unstable_cache(
     async () => {
       const images = await db.query.images.findMany({
