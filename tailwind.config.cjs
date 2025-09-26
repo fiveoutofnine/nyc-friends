@@ -42,7 +42,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],
-        mono: ['var(--font-fira-code)', ...fontFamily.mono],
       },
       gridTemplateRows: {
         1: 'repeat(1, minmax(0, 1fr))',
