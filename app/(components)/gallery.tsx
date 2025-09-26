@@ -39,6 +39,27 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
     }
   };
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+          navigate('prev');
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+          navigate('next');
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [images.length]);
+
   const image = images[index];
 
   // ---------------------------------------------------------------------------
