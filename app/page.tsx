@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache';
 
-import GalleryCarousel from './(components)/gallery-carousel';
+import Gallery from './(components)/gallery';
 
 import { db } from '@/lib/db';
 
@@ -18,7 +18,7 @@ export default async function Page() {
 
   return (
     <main className="flex h-screen w-full items-center justify-center bg-black">
-      <GalleryCarousel images={images} />
+      <Gallery images={images} />
     </main>
   );
 }
