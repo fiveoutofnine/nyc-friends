@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     default: title,
   },
   description,
-  keywords: ['friend.com', 'ai', 'ai companions'],
+  keywords: ['AI companion', 'friend', 'friend.com', 'artificial intelligence', 'smart device'],
   openGraph: {
     title,
     description,
