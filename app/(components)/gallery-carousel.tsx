@@ -4,6 +4,10 @@ import { useState } from 'react';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+
 interface GalleryImage {
   src: string;
   title: string;
@@ -14,7 +18,11 @@ interface GalleryCarouselProps {
   images: GalleryImage[];
 }
 
-export default function GalleryCarousel({ images }: GalleryCarouselProps) {
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
+const GalleryCarousel: React.FC<GalleryCarouselProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -75,4 +83,6 @@ export default function GalleryCarousel({ images }: GalleryCarouselProps) {
       </div>
     </div>
   );
-}
+};
+
+export default GalleryCarousel;
