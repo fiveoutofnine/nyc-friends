@@ -1,18 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { twMerge } from 'tailwind-merge';
 
 import type { Image } from '@/lib/db/schema';
+
+import CustomMDX from '@/components/templates/custom-mdx';
 
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
 interface GalleryProps {
-  images: Image[];
+  images: (Image & { mdxSource?: MDXRemoteSerializeResult })[];
 }
 
 // -----------------------------------------------------------------------------
@@ -31,13 +34,16 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   // UI
   // ---------------------------------------------------------------------------
 
-  const navigate = (direction: 'prev' | 'next') => {
-    if (direction === 'prev') {
-      setIndex((prev) => (prev - 1 + images.length) % images.length);
-    } else {
-      setIndex((prev) => (prev + 1) % images.length);
-    }
-  };
+  const navigate = useCallback(
+    (direction: 'prev' | 'next') => {
+      if (direction === 'prev') {
+        setIndex((prev) => (prev - 1 + images.length) % images.length);
+      } else {
+        setIndex((prev) => (prev + 1) % images.length);
+      }
+    },
+    [images.length],
+  );
 
   // Keyboard navigation
   useEffect(() => {
@@ -58,7 +64,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [images.length]);
+  }, [images.length, navigate]);
 
   const image = images[index];
 
@@ -127,7 +133,9 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         <span className="font-vhs-mono text-xl text-gray-11">
           IMG_{String(image.index).padStart(4, '0')}
         </span>
-        <h1 className="whitespace-pre text-3xl font-light text-gray-12">{image.text}</h1>
+        <div className="flex-wrap whitespace-pre-wrap text-3xl font-light">
+          {image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
+        </div>
       </div>
     </div>
   );
