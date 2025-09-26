@@ -42,7 +42,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],
-        serif: ['var(--font-cormorant-garamond)', ...fontFamily.serif],
         'vhs-mono': ['var(--font-vcr-osd-mono)', ...fontFamily.mono],
       },
       gridTemplateRows: {

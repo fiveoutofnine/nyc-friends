@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Inter } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import LocalFont from 'next/font/local';
 
 import './globals.css';
@@ -13,10 +13,6 @@ import { Toaster } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ['latin'],
-  variable: '--font-cormorant-garamond',
-});
 const vcrOsdMono = LocalFont({
   src: '../public/static/fonts/VCR_OSD_MONO_1.001.woff2',
   variable: '--font-vcr-osd-mono',
@@ -26,12 +22,12 @@ const vcrOsdMono = LocalFont({
 // Metadata
 // -----------------------------------------------------------------------------
 
-const title = 'NYC Friends';
+const title = 'nyc friends';
 const description = 'friend.com reviews by NYC';
 const images = [
   {
     url: 'https://nyc-friends.vercel.app/images/og/home.png',
-    alt: 'NYC Friends OpenGraph image',
+    alt: 'nyc friends OpenGraph image',
     width: 1200,
     height: 630,
   },
@@ -39,7 +35,7 @@ const images = [
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | NYC Friends',
+    template: '%s | nyc friends',
     default: title,
   },
   description,
@@ -49,7 +45,7 @@ export const metadata: Metadata = {
     description,
     images,
     url: 'https://nyc-friends.vercel.app',
-    siteName: 'NYC Friends',
+    siteName: 'nyc friends',
     locale: 'en_US',
     type: 'website',
   },
@@ -80,7 +76,7 @@ export const viewport: Viewport = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={clsx(inter.variable, cormorantGaramond.variable, vcrOsdMono.variable, 'dark')}
+      className={clsx(inter.variable, vcrOsdMono.variable, 'dark')}
       style={{ background: '#000' }}
       lang="en"
     >
