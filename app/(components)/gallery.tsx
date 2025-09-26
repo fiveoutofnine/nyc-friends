@@ -127,7 +127,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         <span className="font-vhs-mono text-xl text-gray-11">
           IMG_{String(image.index).padStart(4, '0')}
         </span>
-        <h1 className="font-vhs-mono text-3xl text-gray-12">{image.text}</h1>
+        <h1 className="whitespace-pre text-3xl font-light text-gray-12">{image.text}</h1>
       </div>
     </div>
   );
