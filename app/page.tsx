@@ -9,7 +9,6 @@ export default async function Page() {
   const images = await unstable_cache(
     async () => {
       const images = await db.query.images.findMany({
-        limit: 2,
         orderBy: (images, { asc }) => [asc(images.index)],
       });
 
