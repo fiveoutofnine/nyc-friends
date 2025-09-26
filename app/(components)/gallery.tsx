@@ -131,14 +131,14 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
       ))}
       <div
         className={clsx(
-          'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 px-4 pb-4',
+          'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 px-4 pb-4 md:px-6 md:pb-6',
           'before:aria-hidden="true" before:pointer-events-none before:absolute before:-top-8 before:left-0 before:h-8 before:w-full before:bg-gradient-to-t before:from-black/50 before:to-transparent before:content-[""]',
         )}
       >
         <span className="font-vhs-mono text-xl text-gray-11">
           IMG_{String(image.index).padStart(4, '0')}
         </span>
-        <div className="flex-wrap whitespace-pre-wrap text-3xl font-light">
+        <div className="flex-wrap whitespace-pre-wrap text-3xl">
           {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
         </div>
       </div>

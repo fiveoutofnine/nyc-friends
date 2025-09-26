@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Cormorant_Garamond, Inter } from 'next/font/google';
 import LocalFont from 'next/font/local';
 
 import './globals.css';
@@ -13,6 +13,10 @@ import { Toaster } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-cormorant-garamond',
+});
 const vcrOsdMono = LocalFont({
   src: '../public/static/fonts/VCR_OSD_MONO_1.001.woff2',
   variable: '--font-vcr-osd-mono',
@@ -76,7 +80,7 @@ export const viewport: Viewport = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={clsx(inter.variable, vcrOsdMono.variable, 'dark')}
+      className={clsx(inter.variable, cormorantGaramond.variable, vcrOsdMono.variable, 'dark')}
       style={{ background: '#000' }}
       lang="en"
     >

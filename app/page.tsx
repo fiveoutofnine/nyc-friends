@@ -5,6 +5,8 @@ import { serialize } from 'next-mdx-remote/serialize';
 
 import { db } from '@/lib/db';
 
+import Friend from '@/components/common/friend';
+
 export default async function Page() {
   const images = await unstable_cache(
     async () => {
@@ -49,6 +51,7 @@ export default async function Page() {
   return (
     <main className="flex h-screen w-full items-center justify-center bg-black">
       <Gallery images={images} />
+      <Friend className="absolute left-4 top-4 md:left-6 md:top-6" height={24} />
     </main>
   );
 }
