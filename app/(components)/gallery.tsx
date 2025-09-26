@@ -27,6 +27,7 @@ interface GalleryProps {
 const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
+  const [accordionValue, setAccordionValue] = useState<string>('text');
 
   useEffect(() => setMounted(true), []);
 
@@ -50,6 +51,11 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if any modifier key (except shift) is pressed.
+      if (e.ctrlKey || e.altKey || e.metaKey) {
+        return;
+      }
+
       switch (e.key) {
         case 'ArrowLeft':
         case 'a':
@@ -61,12 +67,16 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         case 'D':
           navigate('next');
           break;
+        case ' ':
+          e.preventDefault();
+          setAccordionValue((prev) => (prev === 'text' ? '' : 'text'));
+          break;
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [images.length, navigate]);
+  }, [images.length, navigate, setAccordionValue]);
 
   const image = images[index];
 
@@ -159,7 +169,12 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           ) : null}
         </button>
       ))}
-      <Accordion.Root type="single" defaultValue="text" collapsible>
+      <Accordion.Root
+        type="single"
+        value={accordionValue}
+        onValueChange={setAccordionValue}
+        collapsible
+      >
         <div
           className={clsx(
             'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 px-4 pb-4 md:px-6 md:pb-6',
@@ -167,7 +182,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           )}
         >
           <Accordion.Item value="text">
-            <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-vhs-mono text-xl text-gray-11 transition-colors hover:text-gray-12 data-[state=closed]:text-gray-12">
+            <Accordion.Trigger className="font-vhs-mono group pointer-events-auto flex items-center gap-1.5 text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
               IMG_{String(image.index).padStart(4, '0')}
               <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
             </Accordion.Trigger>
