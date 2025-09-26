@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import * as Accordion from '@radix-ui/react-accordion';
 import clsx from 'clsx';
 import { ChevronLeft, ChevronRight, Share } from 'lucide-react';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
@@ -158,19 +159,24 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           ) : null}
         </button>
       ))}
-      <div
-        className={clsx(
-          'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 px-4 pb-4 md:px-6 md:pb-6',
-          'before:aria-hidden="true" before:pointer-events-none before:absolute before:-top-8 before:left-0 before:h-8 before:w-full before:bg-gradient-to-t before:from-black/50 before:to-transparent before:content-[""]',
-        )}
-      >
-        <span className="font-vhs-mono text-xl text-gray-11">
-          IMG_{String(image.index).padStart(4, '0')}
-        </span>
-        <div className="flex-wrap whitespace-pre-wrap text-3xl">
-          {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
+      <Accordion.Root type="single" defaultValue="text" collapsible>
+        <div
+          className={clsx(
+            'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 px-4 pb-4 md:px-6 md:pb-6',
+            'before:aria-hidden="true" before:pointer-events-none before:absolute before:-top-8 before:left-0 before:h-8 before:w-full before:bg-gradient-to-t before:from-black/50 before:to-transparent before:content-[""]',
+          )}
+        >
+          <Accordion.Item value="text">
+            <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-vhs-mono text-xl text-gray-11 transition-colors hover:text-gray-12 data-[state=closed]:text-gray-12">
+              IMG_{String(image.index).padStart(4, '0')}
+              <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
+            </Accordion.Trigger>
+            <Accordion.Content className="flex-wrap whitespace-pre-wrap text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+              {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
+            </Accordion.Content>
+          </Accordion.Item>
         </div>
-      </div>
+      </Accordion.Root>
     </div>
   );
 };
