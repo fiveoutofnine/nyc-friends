@@ -1,4 +1,4 @@
-import { boolean, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 import { enumToPgEnum } from '@/lib/utils';
 
@@ -70,11 +70,23 @@ export const verifications = pgTable('verifications', {
 });
 
 // -----------------------------------------------------------------------------
-// Relations
+// Images
 // -----------------------------------------------------------------------------
+
+export const images = pgTable('images', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => `img_${crypto.randomUUID()}`),
+  url: text('url').notNull(),
+  text: text('text').notNull(),
+  index: integer('index').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
 
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
 
 export type User = typeof users.$inferSelect;
+export type Image = typeof images.$inferSelect;

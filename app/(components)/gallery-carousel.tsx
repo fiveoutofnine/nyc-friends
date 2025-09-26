@@ -4,18 +4,13 @@ import { useState } from 'react';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+import type { Image } from '@/lib/db/schema';
+
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
-
-interface GalleryImage {
-  src: string;
-  title: string;
-  description?: string;
-}
-
 interface GalleryCarouselProps {
-  images: GalleryImage[];
+  images: Image[];
 }
 
 // -----------------------------------------------------------------------------
@@ -51,9 +46,9 @@ const GalleryCarousel: React.FC<GalleryCarouselProps> = ({ images }) => {
       <div className="relative h-full w-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          key={currentImage.src}
-          src={currentImage.src}
-          alt={currentImage.title}
+          key={currentImage.url}
+          src={currentImage.url}
+          alt={currentImage.text}
           className="animate-fadeIn h-full w-full object-contain"
         />
       </div>
@@ -76,10 +71,7 @@ const GalleryCarousel: React.FC<GalleryCarouselProps> = ({ images }) => {
         </span>
       </button>
       <div className="absolute bottom-4 left-4 flex flex-col gap-1">
-        <h1 className="text-3xl font-light tracking-wide text-gray-12">{currentImage.title}</h1>
-        {currentImage.description && (
-          <p className="text-lg font-light text-gray-11">{currentImage.description}</p>
-        )}
+        <h1 className="text-3xl font-light tracking-wide text-gray-12">{currentImage.text}</h1>
       </div>
     </div>
   );
