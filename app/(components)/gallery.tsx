@@ -86,15 +86,17 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           onClick={() => navigate(direction)}
           className={twMerge(
             clsx(
-              'group absolute top-0 flex h-full w-1/2 items-center from-black/70 to-transparent px-4 opacity-0 focus:outline-none md:px-6',
-              !isTouchScreen ? 'transition-opacity duration-300 hover:opacity-100' : '',
+              'group absolute top-0 flex h-full w-1/2 items-center from-black/70 to-transparent px-4 opacity-0 focus:outline-none focus-visible:ring-0 md:px-6',
+              !isTouchScreen
+                ? 'transition-opacity duration-300 hover:opacity-100 focus-visible:bg-gray-3/50 focus-visible:opacity-100'
+                : '',
               className,
             ),
           )}
           aria-label={ariaLabel}
         >
           {!isTouchScreen ? (
-            <span className="hidden text-gray-11 group-hover:flex group-hover:animate-in group-hover:fade-in">
+            <span className="hidden text-gray-11 group-hover:flex group-hover:animate-in group-hover:fade-in group-focus-visible:flex group-focus-visible:animate-in group-focus-visible:fade-in">
               {icon}
             </span>
           ) : null}
