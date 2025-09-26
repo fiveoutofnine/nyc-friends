@@ -14,7 +14,12 @@ export default async function Page() {
         images.map(async (image) => {
           let mdxSource = undefined;
           try {
-            mdxSource = await serialize(image.text);
+            mdxSource = await serialize(image.text, {
+              parseFrontmatter: false,
+              mdxOptions: {
+                development: false,
+              },
+            });
           } catch (error) {
             console.error('MDX serialization failed for image:', image.id, error);
           }

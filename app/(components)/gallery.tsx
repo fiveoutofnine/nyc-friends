@@ -134,7 +134,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           IMG_{String(image.index).padStart(4, '0')}
         </span>
         <div className="flex-wrap whitespace-pre-wrap text-3xl font-light">
-          {image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
+          {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
         </div>
       </div>
     </div>
