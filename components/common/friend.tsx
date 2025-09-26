@@ -14,7 +14,10 @@ const Friend: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement> & { height?
     <Link
       href="https://friend.com"
       className={twMerge(
-        clsx('pointer-events-auto inline transition-opacity hover:opacity-80', className),
+        clsx(
+          'pointer-events-auto inline transition-opacity hover:opacity-80 focus-visible:rounded',
+          className,
+        ),
       )}
       target="_blank"
       rel="noopener noreferrer"

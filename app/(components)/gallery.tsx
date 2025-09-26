@@ -68,8 +68,11 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           navigate('next');
           break;
         case ' ':
-          e.preventDefault();
-          setAccordionValue((prev) => (prev === 'text' ? '' : 'text'));
+          // Only toggle accordion if no other element is focused.
+          if (document.activeElement === document.body) {
+            e.preventDefault();
+            setAccordionValue((prev) => (prev === 'text' ? '' : 'text'));
+          }
           break;
       }
     };
