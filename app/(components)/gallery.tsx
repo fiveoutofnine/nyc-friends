@@ -100,8 +100,11 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           ) : null}
         </button>
       ))}
-      <div className="absolute bottom-4 left-4 flex flex-col gap-1">
-        <h1 className="text-3xl font-light tracking-wide text-gray-12">{image.text}</h1>
+      <div className="absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-gradient-to-t from-black to-transparent p-4">
+        <span className="font-vhs-mono text-xl text-gray-11">
+          {String(image.index).padStart(4, '0')}
+        </span>
+        <h1 className="font-vhs-mono text-3xl text-gray-12">{image.text}</h1>
       </div>
     </div>
   );
