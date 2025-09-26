@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Share } from 'lucide-react';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { twMerge } from 'tailwind-merge';
 
 import type { Image } from '@/lib/db/schema';
 
 import CustomMDX from '@/components/templates/custom-mdx';
+import { IconButton, toast } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Types
@@ -68,6 +69,25 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
   const image = images[index];
 
+  const share = useCallback(async () => {
+    const shareUrl = `${window.location.origin}?img=${image.index}`;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: `IMG_${String(image.index).padStart(4, '0')}`,
+        text: image.text,
+        url: shareUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      toast({
+        intent: 'success',
+        title: 'Link copied to clipboard.',
+        description: shareUrl,
+      });
+    }
+  }, [image]);
+
   // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
@@ -78,6 +98,15 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
+      <IconButton
+        className="absolute right-2 top-2 z-10 md:right-3 md:top-3"
+        onClick={share}
+        size="xl"
+        variant="ghost"
+        aria-label="Share image"
+      >
+        <Share />
+      </IconButton>
       <div className="relative h-full w-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
