@@ -77,7 +77,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-gray-1">
+    <div className="relative h-screen w-full overflow-hidden">
       <div className="relative h-full w-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

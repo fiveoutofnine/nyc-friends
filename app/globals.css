@@ -5,7 +5,7 @@
 html,
 body,
 main {
-  @apply bg-gray-1 text-gray-12;
+  @apply bg-black text-gray-12;
 }
 
 * {
