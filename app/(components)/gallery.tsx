@@ -88,8 +88,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
     if (navigator.share) {
       await navigator.share({
-        title: `IMG_${String(image.index).padStart(4, '0')}`,
-        text: image.text,
+        title: `friend.com review #${image.index}`,
         url: shareUrl,
       });
     } else {
