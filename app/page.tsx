@@ -109,7 +109,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ i
         images.map(async (image) => {
           let mdxSource = undefined;
           try {
-            mdxSource = await serialize(image.text, {
+            mdxSource = await serialize(image.text.replaceAll('friend', '<Friend />'), {
               parseFrontmatter: false,
               mdxOptions: {
                 development: false,

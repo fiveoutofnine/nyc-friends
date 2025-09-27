@@ -1,6 +1,6 @@
 import type { MDXComponents } from 'mdx/types';
 
-import Friend from '@/components/common/friend';
+import { default as Friend } from '@/components/common/friend-inline';
 import { A, Article, Code, P } from '@/components/templates/mdx';
 
 // This file is required to use MDX in `app` directory.
