@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
 
 import Gallery from './(components)/gallery';
@@ -6,6 +7,84 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { db } from '@/lib/db';
 
 import Friend from '@/components/common/friend';
+
+// -----------------------------------------------------------------------------
+// Metadata
+// -----------------------------------------------------------------------------
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ img?: string }>;
+}): Promise<Metadata> {
+  const { img } = await searchParams;
+
+  let image;
+  if (img) {
+    const index = parseInt(img);
+    if (!isNaN(index)) {
+      image = await unstable_cache(
+        async () =>
+          await db.query.images.findFirst({
+            where: (images, { eq }) => eq(images.index, index),
+          }),
+        [`image-${index}`],
+        {
+          tags: [`image-${index}`],
+          revalidate: 3_600,
+        },
+      )();
+    }
+  }
+
+  const title = image?.index ? `friend.com review #${image.index}` : 'nyc friends';
+  const description = image?.text ?? 'friend.com reviews by NYC';
+  const images = [
+    {
+      url: image?.url ?? 'https://nyc-friends.vercel.app/images/og/home.png',
+      alt:
+        image?.index !== undefined
+          ? `nyc friend.com review #${image.index}`
+          : 'nyc friends OpenGraph image',
+      width: 1200,
+      height: 630,
+    },
+  ];
+
+  return {
+    title: {
+      template: '%s | nyc friends',
+      default: title,
+    },
+    description,
+    keywords: ['AI companion', 'friend', 'friend.com', 'artificial intelligence', 'smart device'],
+    openGraph: {
+      title: image?.text ? description : title,
+      description,
+      images,
+      url: 'https://nyc-friends.vercel.app',
+      siteName: 'nyc friends',
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      title: image?.text ? description : title,
+      description,
+      images,
+      card: 'summary_large_image',
+      creator: '@fiveoutofnine',
+      creatorId: '1269561030272643076',
+    },
+    alternates: {
+      canonical: 'https://nyc-friends.vercel.app',
+    },
+    manifest: '/manifest.json',
+  };
+}
+
+// -----------------------------------------------------------------------------
+// Page
+// -----------------------------------------------------------------------------
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ img?: string }> }) {
   const images = await unstable_cache(

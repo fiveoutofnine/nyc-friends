@@ -22,47 +22,6 @@ const vcrOsdMono = LocalFont({
 // Metadata
 // -----------------------------------------------------------------------------
 
-const title = 'nyc friends';
-const description = 'friend.com reviews by NYC';
-const images = [
-  {
-    url: 'https://nyc-friends.vercel.app/images/og/home.png',
-    alt: 'nyc friends OpenGraph image',
-    width: 1200,
-    height: 630,
-  },
-];
-
-export const metadata: Metadata = {
-  title: {
-    template: '%s | nyc friends',
-    default: title,
-  },
-  description,
-  keywords: ['AI companion', 'friend', 'friend.com', 'artificial intelligence', 'smart device'],
-  openGraph: {
-    title,
-    description,
-    images,
-    url: 'https://nyc-friends.vercel.app',
-    siteName: 'nyc friends',
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    title,
-    description,
-    images,
-    card: 'summary_large_image',
-    creator: '@fiveoutofnine',
-    creatorId: '1269561030272643076',
-  },
-  alternates: {
-    canonical: 'https://nyc-friends.vercel.app',
-  },
-  manifest: '/manifest.json',
-};
-
 export const viewport: Viewport = {
   themeColor: '#000',
   width: 'device-width',
