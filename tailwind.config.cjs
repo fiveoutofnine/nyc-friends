@@ -43,6 +43,7 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],
         'vhs-mono': ['var(--font-vcr-osd-mono)', ...fontFamily.mono],
+        'abc-favorit': ['var(--font-abc-favorit)', ...fontFamily.sans],
       },
       gridTemplateRows: {
         1: 'repeat(1, minmax(0, 1fr))',

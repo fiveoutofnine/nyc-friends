@@ -17,6 +17,10 @@ const vcrOsdMono = LocalFont({
   src: '../public/static/fonts/VCR_OSD_MONO_1.001.woff2',
   variable: '--font-vcr-osd-mono',
 });
+const abcFavorit = LocalFont({
+  src: '../public/static/fonts/ABCFavoritVariable-Trial.woff2',
+  variable: '--font-abc-favorit',
+});
 
 // -----------------------------------------------------------------------------
 // Metadata
@@ -35,7 +39,7 @@ export const viewport: Viewport = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={clsx(inter.variable, vcrOsdMono.variable, 'dark')}
+      className={clsx(inter.variable, vcrOsdMono.variable, abcFavorit.variable, 'dark')}
       style={{ background: '#000' }}
       lang="en"
     >
