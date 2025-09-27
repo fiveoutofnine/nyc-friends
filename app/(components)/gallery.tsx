@@ -88,7 +88,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
     if (navigator.share) {
       await navigator.share({
-        title: `friend.com review #${image.index}`,
+        title: image.text ?? `friend.com review #${image.index}`,
         url: shareUrl,
       });
     } else {
@@ -184,7 +184,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           )}
         >
           <Accordion.Item value="text">
-            <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-vhs-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
+            <Accordion.Trigger className="font-vhs-mono group pointer-events-auto flex items-center gap-1.5 text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
               IMG_{String(image.index).padStart(4, '0')}
               <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
             </Accordion.Trigger>
