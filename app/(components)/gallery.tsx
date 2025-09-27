@@ -184,11 +184,11 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           )}
         >
           <Accordion.Item value="text">
-            <Accordion.Trigger className="font-vhs-mono group pointer-events-auto flex items-center gap-1.5 text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
+            <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-vhs-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
               IMG_{String(image.index).padStart(4, '0')}
               <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
             </Accordion.Trigger>
-            <Accordion.Content className="font-abc-favorit flex-wrap whitespace-pre-wrap text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <Accordion.Content className="flex-wrap whitespace-pre-wrap font-abc-favorit text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
               {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
             </Accordion.Content>
           </Accordion.Item>
