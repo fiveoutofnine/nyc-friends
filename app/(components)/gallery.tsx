@@ -11,6 +11,7 @@ import { twMerge } from 'tailwind-merge';
 
 import type { Image } from '@/lib/db/schema';
 
+import Location from '@/components/common/location';
 import CustomMDX from '@/components/templates/custom-mdx';
 import { IconButton, toast } from '@/components/ui';
 
@@ -112,15 +113,11 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
-      <IconButton
-        className="absolute right-2 top-2 z-10 md:right-3 md:top-3"
-        onClick={share}
-        size="xl"
-        variant="ghost"
-        aria-label="Share image"
-      >
-        <Share />
-      </IconButton>
+      <div className="absolute right-2 top-2 z-10 flex items-center md:right-3 md:top-3">
+        <IconButton onClick={share} size="xl" variant="ghost" aria-label="Share image">
+          <Share />
+        </IconButton>
+      </div>
       <div className="relative h-full w-full">
         <NextImage
           key={image.url}
@@ -128,7 +125,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           alt={image.text}
           width={image.width}
           height={image.height}
-          className="animate-fadeIn h-full w-full object-contain"
+          className="animate-fadeIn h-full w-full select-none object-contain"
         />
       </div>
       {(
@@ -186,11 +183,14 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           )}
         >
           <Accordion.Item value="text">
-            <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-vhs-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
-              {(image.city ?? 'IMG').toUpperCase()}_{String(image.index).padStart(4, '0')}
-              <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
-            </Accordion.Trigger>
-            <Accordion.Content className="flex-wrap whitespace-pre-wrap text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <div className="flex items-center justify-between">
+              <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
+                {(image.city ?? 'IMG').toUpperCase()}_{String(image.index).padStart(4, '0')}
+                <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
+              </Accordion.Trigger>
+              {image.location ? <Location location={image.location} /> : null}
+            </div>
+            <Accordion.Content className="select-none flex-wrap whitespace-pre-wrap text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
               {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
             </Accordion.Content>
           </Accordion.Item>

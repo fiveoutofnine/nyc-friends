@@ -83,6 +83,7 @@ export const images = pgTable('images', {
   width: integer('width').notNull().default(1_024),
   height: integer('height').notNull().default(1_024),
   city: text('city').default('NYC'),
+  location: text('location'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });

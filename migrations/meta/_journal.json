@@ -43,6 +43,13 @@
       "when": 1759029916918,
       "tag": "0005_silky_tyger_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1759036924176,
+      "tag": "0006_young_leper_queen",
+      "breakpoints": true
     }
   ]
 }

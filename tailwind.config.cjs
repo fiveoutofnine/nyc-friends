@@ -42,7 +42,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', ...fontFamily.sans],
-        'vhs-mono': ['var(--font-vcr-osd-mono)', ...fontFamily.mono],
+        mono: ['var(--font-vcr-osd-mono)', ...fontFamily.mono],
+        helvetica: ['var(--font-helvetica)', ...fontFamily.sans],
       },
       gridTemplateRows: {
         1: 'repeat(1, minmax(0, 1fr))',
