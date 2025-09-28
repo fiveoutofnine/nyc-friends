@@ -79,9 +79,10 @@ export const images = pgTable('images', {
     .$defaultFn(() => `img_${crypto.randomUUID()}`),
   url: text('url').notNull(),
   text: text('text').notNull(),
-  index: integer('index').notNull(),
-  width: integer('width').notNull().default(1024),
-  height: integer('height').notNull().default(1024),
+  index: integer('index').notNull().unique(),
+  width: integer('width').notNull().default(1_024),
+  height: integer('height').notNull().default(1_024),
+  city: text('city').default('NYC'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });

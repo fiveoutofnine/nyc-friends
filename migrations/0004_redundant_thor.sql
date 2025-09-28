@@ -1,0 +1,1 @@
+ALTER TABLE "images" ADD CONSTRAINT "images_index_unique" UNIQUE("index");
