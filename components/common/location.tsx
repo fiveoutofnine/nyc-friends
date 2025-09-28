@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { default as NYCMTABullet, type NYCMTABulletProps } from './nyc-mta-bullet';
 
 // -----------------------------------------------------------------------------
@@ -26,29 +28,11 @@ const Location: React.FC<LocationProps> = ({ location }) => {
     // prettier-ignore
     if (b === 'elmhurst') [name, bullets, url] = ['Elmhurst Avenue', 'M,R', 'https://maps.app.goo.gl/Aseo9eyMTWwzBnYM7'];
     // prettier-ignore
-    if (b === 'west_4th') [name, bullets, url] = ['West 4 Street', 'A,C,E,B,D,F,M', 'https://maps.app.goo.gl/dUjQGxSkzv7YkUCk8'];
+    if (b === 'west_4th') [name, bullets, url] = ['West 4 Street', 'A,C,E,B,D,F,M', null];
 
     if (name && bullets) {
-      if (url) {
-        return (
-          <a
-            href={url}
-            className="hide-scrollbar pointer-events-auto ml-2 flex items-center gap-2 overflow-x-auto hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {/* prettier-ignore */}
-            <div className="font-helvetica select-none text-xl font-medium text-nowrap">{name}</div>
-            <div className="flex items-center gap-1">
-              {bullets.split(',').map((bullet) => (
-                <NYCMTABullet key={`${b}-${bullet}`} line={bullet as Line} size={24} />
-              ))}
-            </div>
-          </a>
-        );
-      }
-      return (
-        <div className="hide-scrollbar pointer-events-auto ml-2 flex items-center gap-2 overflow-x-auto">
+      const children = (
+        <Fragment>
           {/* prettier-ignore */}
           <div className="font-helvetica select-none text-xl font-medium text-nowrap">{name}</div>
           <div className="flex items-center gap-1">
@@ -56,6 +40,31 @@ const Location: React.FC<LocationProps> = ({ location }) => {
               <NYCMTABullet key={`${b}-${bullet}`} line={bullet as Line} size={24} />
             ))}
           </div>
+        </Fragment>
+      );
+
+      return (
+        <div
+          className="hide-scrollbar pointer-events-auto relative overflow-x-auto pl-2 pr-4 md:pr-6"
+          style={{
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent, black 0.5rem, black calc(100% - 0.5rem), transparent)',
+            maskImage:
+              'linear-gradient(to right, transparent, black 0.5rem, black calc(100% - 0.5rem), transparent)',
+          }}
+        >
+          {url ? (
+            <a
+              href={url}
+              className="flex w-fit items-center gap-2 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {children}
+            </a>
+          ) : (
+            <div className="flex w-fit items-center gap-2">{children}</div>
+          )}
         </div>
       );
     }

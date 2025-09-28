@@ -178,7 +178,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
       >
         <div
           className={clsx(
-            'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 px-4 pb-4 md:px-6 md:pb-6',
+            'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 pb-4 pl-4 md:pb-6 md:pl-6',
             'before:aria-hidden="true" before:pointer-events-none before:absolute before:-top-8 before:left-0 before:h-8 before:w-full before:bg-gradient-to-t before:from-black/50 before:to-transparent before:content-[""]',
           )}
         >
@@ -190,7 +190,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
               </Accordion.Trigger>
               {image.location ? <Location location={image.location} /> : null}
             </div>
-            <Accordion.Content className="select-none flex-wrap whitespace-pre-wrap text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <Accordion.Content className="select-none flex-wrap whitespace-pre-wrap pr-4 text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:pr-6">
               {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
             </Accordion.Content>
           </Accordion.Item>
