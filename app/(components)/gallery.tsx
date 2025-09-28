@@ -18,9 +18,10 @@ import { IconButton, toast } from '@/components/ui';
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
-interface GalleryProps {
+
+type GalleryProps = {
   images: (Image & { mdxSource?: MDXRemoteSerializeResult })[];
-}
+};
 
 // -----------------------------------------------------------------------------
 // Component

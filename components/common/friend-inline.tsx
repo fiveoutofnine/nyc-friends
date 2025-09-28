@@ -1,20 +1,32 @@
+import { Fragment } from 'react';
+
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-const FriendInline: React.FC<React.SVGAttributes<SVGElement> & { height?: number }> = ({
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+
+type FriendInlineProps = React.SVGAttributes<SVGElement> & {
+  size?: 'sm' | 'md';
+  link?: boolean;
+};
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
+const FriendInline: React.FC<FriendInlineProps> = ({
   className,
-  height = 25.5,
+  size = 'md',
+  link = true,
   ...rest
 }) => {
   const [WIDTH, HEIGHT] = [266, 81];
+  const height = size === 'sm' ? 13.5 : 25.5;
 
-  return (
-    <a
-      className="pointer-events-auto relative inline-block transition-opacity [text-decoration:inherit] hover:opacity-80 focus-visible:rounded"
-      href="https://friend.com"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+  const children = (
+    <Fragment>
       <svg
         className={twMerge(clsx('inline-block fill-current align-baseline', className))}
         width={(WIDTH * height) / HEIGHT}
@@ -40,8 +52,23 @@ const FriendInline: React.FC<React.SVGAttributes<SVGElement> & { height?: number
       >
         {'          '}
       </span>
-    </a>
+    </Fragment>
   );
+
+  if (link) {
+    return (
+      <a
+        className="pointer-events-auto relative inline-block transition-opacity [text-decoration:inherit] hover:opacity-80 focus-visible:rounded"
+        href="https://friend.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return <span className="relative inline-block [text-decoration:inherit]">{children}</span>;
 };
 
 export default FriendInline;
