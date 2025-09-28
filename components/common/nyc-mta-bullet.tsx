@@ -96,6 +96,7 @@ const NYCMTABullet: React.FC<NYCMTABulletProps> = ({ line, size = 20 }) => {
       style={{
         background: background[line],
         color: color[line],
+        minWidth: size,
         width: size,
         height: size,
         fontSize: size / 1.5,

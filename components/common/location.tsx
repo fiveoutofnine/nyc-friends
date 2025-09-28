@@ -26,20 +26,20 @@ const Location: React.FC<LocationProps> = ({ location }) => {
     // prettier-ignore
     if (b === 'elmhurst') [name, bullets, url] = ['Elmhurst Avenue', 'M,R', 'https://maps.app.goo.gl/Aseo9eyMTWwzBnYM7'];
     // prettier-ignore
-    if (b === 'west_4th') [name, bullets, url] = ['West 4 Street–Washington Square', 'A,C,E,B,D,F,M', 'https://maps.app.goo.gl/dUjQGxSkzv7YkUCk8'];
+    if (b === 'west_4th') [name, bullets, url] = ['West 4 Street', 'A,C,E,B,D,F,M', 'https://maps.app.goo.gl/dUjQGxSkzv7YkUCk8'];
 
     if (name && bullets) {
       if (url) {
         return (
           <a
             href={url}
-            className="pointer-events-auto ml-4 flex items-center gap-2 hover:underline"
+            className="hide-scrollbar pointer-events-auto ml-2 flex items-center gap-2 overflow-x-auto hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
             {/* prettier-ignore */}
-            <div className="font-helvetica select-none text-xl font-medium line-clamp-1">{name}</div>
-            <div className="flex flex-wrap items-center gap-1">
+            <div className="font-helvetica select-none text-xl font-medium text-nowrap">{name}</div>
+            <div className="flex items-center gap-1">
               {bullets.split(',').map((bullet) => (
                 <NYCMTABullet key={`${b}-${bullet}`} line={bullet as Line} size={24} />
               ))}
@@ -48,9 +48,9 @@ const Location: React.FC<LocationProps> = ({ location }) => {
         );
       }
       return (
-        <div className="ml-4 flex items-center gap-2">
+        <div className="hide-scrollbar pointer-events-auto ml-2 flex items-center gap-2 overflow-x-auto">
           {/* prettier-ignore */}
-          <div className="font-helvetica select-none text-xl font-medium">{name}</div>
+          <div className="font-helvetica select-none text-xl font-medium text-nowrap">{name}</div>
           <div className="flex items-center gap-1">
             {bullets.split(',').map((bullet) => (
               <NYCMTABullet key={`${b}-${bullet}`} line={bullet as Line} size={24} />
