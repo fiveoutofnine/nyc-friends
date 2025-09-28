@@ -87,6 +87,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
         aria-label="Share image"
         onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           share();
         }}
       >
