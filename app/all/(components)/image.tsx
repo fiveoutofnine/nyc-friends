@@ -53,7 +53,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
     <a
       key={image.id}
       href={`/?img=${image.index}`}
-      className="group relative w-full overflow-hidden border border-gray-7 bg-gray-3 transition-colors hover:border-gray-8"
+      className="group relative w-full overflow-hidden border border-gray-7 bg-gray-3 transition-colors hover:border-gray-8 focus-visible:border-blue-9 focus-visible:ring-0"
       style={{
         aspectRatio: '1 / 1',
       }}
@@ -63,12 +63,12 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
         alt={image.text}
         width={image.width}
         height={image.height}
-        className="animate-fadeIn h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+        className="animate-fadeIn h-full w-full object-cover transition-transform duration-300 group-hover:scale-110 group-focus-visible:scale-110"
         draggable={false}
       />
       <div
         className={clsx(
-          'pointer-events-none absolute inset-0 h-[1.875rem] -translate-y-full bg-black/50 px-2.5 pt-2.5 font-mono text-base leading-5 text-gray-12 transition-all group-hover:translate-y-0',
+          'pointer-events-none absolute inset-0 h-[1.875rem] -translate-y-full bg-black/50 px-2.5 pt-2.5 font-mono text-base leading-5 text-gray-12 transition-all group-hover:translate-y-0 group-focus-visible:translate-y-0',
           'after:aria-hidden="true" after:pointer-events-none after:absolute after:-bottom-20 after:left-0 after:h-20 after:w-full after:bg-gradient-to-b after:from-black/50 after:to-transparent after:content-[""]',
           isTouchScreen ? 'hidden' : 'flex',
         )}
@@ -80,7 +80,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
           'absolute right-1.5 top-1.5',
           isTouchScreen
             ? 'flex'
-            : 'hidden group-hover:flex group-hover:animate-in group-hover:fade-in',
+            : 'hidden group-hover:flex group-hover:animate-in group-hover:fade-in group-focus-visible:flex group-focus-visible:animate-in group-focus-visible:fade-in',
         )}
         size="md"
         variant="ghost"
