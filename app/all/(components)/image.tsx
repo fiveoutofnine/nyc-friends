@@ -1,14 +1,12 @@
 'use client';
 
 import { default as NextImage } from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { Share } from 'lucide-react';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
-import { useTransition } from '@/lib/contexts/transition';
 import type { Image } from '@/lib/db/schema';
 
 import CustomMDX from '@/components/templates/custom-mdx';
@@ -28,9 +26,6 @@ type GalleryImageProps = {
 
 const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { setTransitionImage } = useTransition();
-  const imageRef = useRef<HTMLAnchorElement>(null);
-  const router = useRouter();
 
   useEffect(() => setMounted(true), []);
 
@@ -54,33 +49,10 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
     }
   }, [image]);
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-
-      if (imageRef.current) {
-        const rect = imageRef.current.getBoundingClientRect();
-        setTransitionImage({
-          url: image.url,
-          index: image.index,
-          rect,
-        });
-
-        // Small delay to ensure the transition state is set.
-        setTimeout(() => {
-          router.push(`/?img=${image.index}`);
-        }, 50);
-      }
-    },
-    [image, router, setTransitionImage],
-  );
-
   return (
     <a
-      ref={imageRef}
       key={image.id}
       href={`/?img=${image.index}`}
-      onClick={handleClick}
       className="group relative w-full overflow-hidden border border-gray-7 bg-gray-3 transition-colors hover:border-gray-8"
       style={{
         aspectRatio: '1 / 1',

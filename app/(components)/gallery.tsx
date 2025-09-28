@@ -10,7 +10,6 @@ import { ChevronLeft, ChevronRight, Share } from 'lucide-react';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { twMerge } from 'tailwind-merge';
 
-import { useTransition } from '@/lib/contexts/transition';
 import type { Image } from '@/lib/db/schema';
 
 import Location from '@/components/common/location';
@@ -34,20 +33,8 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const [index, setIndex] = useState<number>(0);
   const [accordionTouched, setAccordionTouched] = useState<boolean>(false);
   const [accordionValue, setAccordionValue] = useState<string>('text');
-  const [transitioned, setTransitioned] = useState<boolean>(false);
-  const { transitionImage } = useTransition();
 
   useEffect(() => setMounted(true), []);
-
-  // Check if we just transitioned.
-  useEffect(() => {
-    if (transitionImage) {
-      setTransitioned(true);
-      // Reset after a delay to allow future animations.
-      const timer = setTimeout(() => setTransitioned(false), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [transitionImage]);
 
   const isTouchScreen = mounted ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false;
 
@@ -141,10 +128,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           alt={image.text}
           width={image.width}
           height={image.height}
-          className={clsx(
-            'h-full w-full select-none object-contain',
-            !transitioned ? 'animate-fadeIn' : '',
-          )}
+          className="animate-fadeIn h-full w-full select-none object-contain"
           draggable={false}
         />
       </div>

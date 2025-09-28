@@ -3,7 +3,6 @@ import { unstable_cache } from 'next/cache';
 import { Fragment } from 'react';
 
 import Gallery from './(components)/gallery';
-import TransitionOverlay from './(components)/transition-overlay';
 import { serialize } from 'next-mdx-remote/serialize';
 
 import { db } from '@/lib/db';
@@ -150,7 +149,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ i
         <Gallery images={images} />
         <Friend className="absolute left-4 top-4 md:left-6 md:top-6" height={24} />
       </main>
-      <TransitionOverlay />
     </Fragment>
   );
 }
