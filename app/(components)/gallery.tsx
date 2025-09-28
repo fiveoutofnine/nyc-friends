@@ -30,6 +30,7 @@ type GalleryProps = {
 const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
+  const [accordionTouched, setAccordionTouched] = useState<boolean>(false);
   const [accordionValue, setAccordionValue] = useState<string>('text');
 
   useEffect(() => setMounted(true), []);
@@ -175,7 +176,10 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
       <Accordion.Root
         type="single"
         value={accordionValue}
-        onValueChange={setAccordionValue}
+        onValueChange={(value) => {
+          setAccordionValue(value);
+          setAccordionTouched(true);
+        }}
         collapsible
       >
         <div
@@ -192,7 +196,12 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
               </Accordion.Trigger>
               {image.location ? <Location location={image.location} /> : null}
             </div>
-            <Accordion.Content className="select-none flex-wrap whitespace-pre-wrap pr-4 text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:pr-6">
+            <Accordion.Content
+              className={clsx(
+                'select-none flex-wrap whitespace-pre-wrap pr-4 text-3xl data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down md:pr-6',
+                !accordionTouched ? 'line-clamp-3' : '',
+              )}
+            >
               {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
             </Accordion.Content>
           </Accordion.Item>
