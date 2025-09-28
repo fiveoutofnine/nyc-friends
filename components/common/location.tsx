@@ -28,7 +28,7 @@ const Location: React.FC<LocationProps> = ({ location }) => {
     // prettier-ignore
     if (b === 'elmhurst') [name, bullets, url] = ['Elmhurst Avenue', 'M,R', 'https://maps.app.goo.gl/Aseo9eyMTWwzBnYM7'];
     // prettier-ignore
-    if (b === 'west_4th') [name, bullets, url] = ['West 4 Street', 'A,C,E,B,D,F,M', null];
+    if (b === 'west_4th') [name, bullets, url] = ['West 4 Street', 'A,C,E,B,D,F,M', 'https://maps.app.goo.gl/szF3tauihixngssUA'];
 
     if (name && bullets) {
       const children = (
