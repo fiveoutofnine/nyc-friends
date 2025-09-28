@@ -1,5 +1,6 @@
 'use client';
 
+import { default as NextImage } from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 
 import * as Accordion from '@radix-ui/react-accordion';
@@ -121,11 +122,12 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         <Share />
       </IconButton>
       <div className="relative h-full w-full">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <NextImage
           key={image.url}
           src={image.url}
           alt={image.text}
+          width={image.width}
+          height={image.height}
           className="animate-fadeIn h-full w-full object-contain"
         />
       </div>

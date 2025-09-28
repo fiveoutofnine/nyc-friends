@@ -6,7 +6,6 @@ import { serialize } from 'next-mdx-remote/serialize';
 
 import { db } from '@/lib/db';
 import type { Image } from '@/lib/db/schema';
-import { getImageDimensions } from '@/lib/utils';
 
 import Friend from '@/components/common/friend';
 
@@ -21,25 +20,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { img } = await searchParams;
 
-  let image: null | (Image & { width?: number; height?: number }) = null;
+  let image: Image | undefined = undefined;
   if (img) {
     const index = parseInt(img);
     if (!isNaN(index)) {
       image = await unstable_cache(
-        async () => {
-          const image = await db.query.images.findFirst({
+        async () =>
+          await db.query.images.findFirst({
             where: (images, { eq }) => eq(images.index, index),
-          });
-
-          if (image) {
-            // Find width and height of the image.
-            const dimensions = await getImageDimensions(image.url);
-            if (dimensions) return { ...image, ...dimensions };
-            return image;
-          }
-
-          return null;
-        },
+          }),
         [`image-${index}`],
         {
           tags: [`image-${index}`],

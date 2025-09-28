@@ -80,6 +80,8 @@ export const images = pgTable('images', {
   url: text('url').notNull(),
   text: text('text').notNull(),
   index: integer('index').notNull(),
+  width: integer('width').notNull().default(1024),
+  height: integer('height').notNull().default(1024),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
