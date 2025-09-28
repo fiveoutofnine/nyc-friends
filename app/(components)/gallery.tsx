@@ -1,11 +1,12 @@
 'use client';
 
 import { default as NextImage } from 'next/image';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
 import * as Accordion from '@radix-ui/react-accordion';
 import clsx from 'clsx';
-import { ChevronLeft, ChevronRight, Share } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Share, Slash } from 'lucide-react';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { twMerge } from 'tailwind-merge';
 
@@ -190,10 +191,26 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         >
           <Accordion.Item className="flex flex-col gap-0.5" value="text">
             <div className="flex h-7 items-center justify-between">
-              <Accordion.Trigger className="group pointer-events-auto flex h-7 items-center gap-1 font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
-                {(image.city ?? 'IMG').toUpperCase()}_{String(image.index).padStart(4, '0')}
-                <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
-              </Accordion.Trigger>
+              <div className="flex items-center">
+                <Link
+                  className="pointer-events-auto select-none text-nowrap font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded"
+                  href="/all"
+                >
+                  ← ALL
+                </Link>
+                <span
+                  className="select-none whitespace-pre text-gray-11"
+                  role="separator"
+                  aria-hidden
+                >
+                  {' '}
+                  /{' '}
+                </span>
+                <Accordion.Trigger className="group pointer-events-auto flex h-7 items-center gap-1 font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
+                  {String(image.index).padStart(4, '0')}
+                  <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
+                </Accordion.Trigger>
+              </div>
               {image.location ? <Location location={image.location} /> : null}
             </div>
             <Accordion.Content
