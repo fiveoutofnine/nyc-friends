@@ -127,6 +127,11 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           src={image.url}
           alt={image.text}
           className="animate-fadeIn h-full w-full object-contain"
+          draggable={true}
+          onDragStart={(e) => {
+            // Ensure drag works properly with the image
+            e.dataTransfer.effectAllowed = 'copy';
+          }}
         />
       </div>
       {(
@@ -153,6 +158,57 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         <button
           key={direction}
           onClick={() => navigate(direction)}
+          onContextMenu={(e) => {
+            // Prevent context menu on the button, let it bubble to the image
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchStart={(e) => {
+            // Store touch start time to detect long press
+            const target = e.currentTarget as HTMLButtonElement;
+            const touchStartTime = Date.now();
+            target.dataset.touchStartTime = touchStartTime.toString();
+
+            // Set a timeout for long press detection
+            const timeoutId = setTimeout(() => {
+              // If still touching after 500ms, it's a long press
+              // Stop the event to allow the browser's save image menu
+              target.dataset.isLongPress = 'true';
+            }, 500);
+
+            target.dataset.timeoutId = timeoutId.toString();
+          }}
+          onTouchEnd={(e) => {
+            const target = e.currentTarget as HTMLButtonElement;
+            const timeoutId = target.dataset.timeoutId;
+
+            // Clear the timeout
+            if (timeoutId) {
+              clearTimeout(parseInt(timeoutId));
+            }
+
+            // If it was a long press, prevent the click
+            if (target.dataset.isLongPress === 'true') {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+
+            // Clean up data attributes
+            delete target.dataset.touchStartTime;
+            delete target.dataset.timeoutId;
+            delete target.dataset.isLongPress;
+          }}
+          onTouchMove={(e) => {
+            // If user moves finger, cancel long press detection
+            const target = e.currentTarget as HTMLButtonElement;
+            const timeoutId = target.dataset.timeoutId;
+
+            if (timeoutId) {
+              clearTimeout(parseInt(timeoutId));
+              delete target.dataset.timeoutId;
+              delete target.dataset.isLongPress;
+            }
+          }}
           className={twMerge(
             clsx(
               'group absolute top-0 flex h-full w-1/2 items-center from-black/70 to-transparent px-4 opacity-0 focus:outline-none focus-visible:ring-0 md:px-6',
@@ -184,7 +240,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           )}
         >
           <Accordion.Item value="text">
-            <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-vhs-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
+            <Accordion.Trigger className="font-vhs-mono group pointer-events-auto flex items-center gap-1.5 text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
               IMG_{String(image.index).padStart(4, '0')}
               <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
             </Accordion.Trigger>
