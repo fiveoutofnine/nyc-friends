@@ -23,6 +23,7 @@
 *.pem
 /.claude
 /.content
+/app/api/admin
 
 # debug
 npm-debug.log*
