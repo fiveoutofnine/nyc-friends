@@ -45,7 +45,7 @@ const Location: React.FC<LocationProps> = ({ location }) => {
 
       return (
         <div
-          className="hide-scrollbar pointer-events-auto relative overflow-x-auto pl-2 pr-4 md:pr-6"
+          className="hide-scrollbar pointer-events-auto relative h-7 overflow-x-auto pl-2 pr-4 md:pr-6"
           style={{
             WebkitMaskImage:
               'linear-gradient(to right, transparent, black 0.5rem, black calc(100% - 0.5rem), transparent)',

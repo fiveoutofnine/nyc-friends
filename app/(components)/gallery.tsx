@@ -126,6 +126,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           width={image.width}
           height={image.height}
           className="animate-fadeIn h-full w-full select-none object-contain"
+          draggable={false}
         />
       </div>
       {(
@@ -178,13 +179,13 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
       >
         <div
           className={clsx(
-            'pointer-events-none absolute bottom-0 left-0 flex w-full flex-col gap-1 bg-black/50 pb-4 pl-4 md:pb-6 md:pl-6',
+            'pointer-events-none absolute bottom-0 left-0 w-full bg-black/50 pb-4 pl-4 md:pb-6 md:pl-6',
             'before:aria-hidden="true" before:pointer-events-none before:absolute before:-top-8 before:left-0 before:h-8 before:w-full before:bg-gradient-to-t before:from-black/50 before:to-transparent before:content-[""]',
           )}
         >
-          <Accordion.Item value="text">
-            <div className="flex items-center justify-between">
-              <Accordion.Trigger className="group pointer-events-auto flex items-center gap-1.5 font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
+          <Accordion.Item className="flex flex-col gap-0.5" value="text">
+            <div className="flex h-7 items-center justify-between">
+              <Accordion.Trigger className="group pointer-events-auto flex h-7 items-center gap-1 font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 focus-visible:rounded data-[state=closed]:text-gray-12">
                 {(image.city ?? 'IMG').toUpperCase()}_{String(image.index).padStart(4, '0')}
                 <ChevronRight className="size-5 transition-transform duration-200 group-data-[state=open]:rotate-90" />
               </Accordion.Trigger>
