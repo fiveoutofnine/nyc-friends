@@ -6,6 +6,8 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import clsx from 'clsx';
 
+import { TransitionProvider } from '@/lib/contexts/transition';
+
 import { Toaster } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -85,7 +87,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       lang="en"
     >
       <body className={clsx(inter.className, 'relative flex min-h-screen w-full flex-col')}>
-        {children}
+        <TransitionProvider>{children}</TransitionProvider>
         <Toaster />
         <Analytics />
       </body>
