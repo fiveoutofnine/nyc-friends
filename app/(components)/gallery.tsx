@@ -195,7 +195,10 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
         value={accordionValue}
         onValueChange={(value) => {
           setAccordionValue(value);
-          setAccordionTouched(true);
+
+          if (!accordionTouched) {
+            setTimeout(() => setAccordionTouched(true), 200);
+          }
         }}
         collapsible
       >
