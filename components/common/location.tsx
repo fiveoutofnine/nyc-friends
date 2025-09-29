@@ -22,11 +22,21 @@ const Location: React.FC<LocationProps> = ({ location }) => {
     let [name, bullets, url]: [string | null, string | null, string | null] = [null, null, null];
 
     // prettier-ignore
+    if (b === '116th_8th_ind') [name, bullets, url] = ['116 Street', 'B,C', 'https://maps.app.goo.gl/iBWtMuSwJkeWCdVE6'];
+    // prettier-ignore
+    if (b === '14th_6th_bmt') [name, bullets, url] = ['6 Avenue', 'L', 'https://maps.app.goo.gl/mLoC56CjYEUZ8uyq9'];
+    // prettier-ignore
+    if (b === '14th_6th_irt') [name, bullets, url] = ['14 Street', '1,2,3', 'https://maps.app.goo.gl/vW373pkXUTQRmwn5A'];
+    // prettier-ignore
+    if (b === '23rd_8th_ind') [name, bullets, url] = ['23 Street', 'C,E', 'https://maps.app.goo.gl/ukxduoRrgyJtm3UKA'];
+    // prettier-ignore
     if (b === '77th_st_irt') [name, bullets, url] = ['77th Street', '6', 'https://maps.app.goo.gl/a3AjbbxA71N8jC8b6'];
     // prettier-ignore
     if (b === 'dyckman_ind') [name, bullets, url] = ['Dyckman Street', 'A', 'https://maps.app.goo.gl/CxTkByPynRGk9CAd9'];
     // prettier-ignore
     if (b === 'elmhurst') [name, bullets, url] = ['Elmhurst Avenue', 'M,R', 'https://maps.app.goo.gl/Aseo9eyMTWwzBnYM7'];
+    // prettier-ignore
+    if (b === 'halsey_canarsie') [name, bullets, url] = ['Halsey Street', 'L', 'https://maps.app.goo.gl/XdmKPigSas1jpdcA9'];
     // prettier-ignore
     if (b === 'west_4th') [name, bullets, url] = ['West 4 Street', 'A,C,E,B,D,F,M', 'https://maps.app.goo.gl/szF3tauihixngssUA'];
 
