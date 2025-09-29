@@ -197,7 +197,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
               <div className="flex items-center">
                 <Link
                   className="pointer-events-auto select-none text-nowrap font-mono text-xl text-gray-11 transition-colors hover:text-gray-12 hover:underline focus-visible:rounded"
-                  href="/all"
+                  href={`/all#${(image.city ?? 'IMG').toUpperCase()}-${String(image.index).padStart(4, '0')}`}
                 >
                   ← ALL
                 </Link>

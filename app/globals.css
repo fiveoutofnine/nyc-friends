@@ -5,7 +5,7 @@
 html,
 body,
 main {
-  @apply bg-black text-gray-12;
+  @apply scroll-pt-[3.5rem] bg-black text-gray-12 md:scroll-pt-[4.5rem];
 }
 
 * {
