@@ -88,7 +88,11 @@ export async function generateMetadata({
 // Page
 // -----------------------------------------------------------------------------
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ img?: string }> }) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ img?: string; sorted?: string }>;
+}) {
   const images = await unstable_cache(
     async () => {
       const images = await db.query.images.findMany({
@@ -123,22 +127,39 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ i
     },
   )();
 
-  // Randomly shuffle the images.
-  for (let i = images.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [images[i], images[j]] = [images[j], images[i]];
-  }
+  const { img, sorted } = await searchParams;
 
-  const { img } = await searchParams;
+  // Only shuffle if `sorted` param is not present.
+  if (!sorted) {
+    // Randomly shuffle the images.
+    for (let i = images.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [images[i], images[j]] = [images[j], images[i]];
+    }
 
-  // If `img` query param is provided, swap that image to position 0.
-  if (img) {
-    const index = parseInt(img);
-    if (!isNaN(index)) {
-      const foundIndex = images.findIndex((img) => img.index === index);
-      if (foundIndex !== -1 && foundIndex !== 0) {
-        // Swap the found image with the first image.
-        [images[0], images[foundIndex]] = [images[foundIndex], images[0]];
+    // If `img` query param is provided, swap that image to position 0.
+    if (img) {
+      const index = parseInt(img);
+      if (!isNaN(index)) {
+        const foundIndex = images.findIndex((img) => img.index === index);
+        if (foundIndex !== -1 && foundIndex !== 0) {
+          // Swap the found image with the first image.
+          [images[0], images[foundIndex]] = [images[foundIndex], images[0]];
+        }
+      }
+    }
+  } else {
+    // When sorted, slice the array to start from the specified image
+    if (img) {
+      const index = parseInt(img);
+      if (!isNaN(index)) {
+        const foundIndex = images.findIndex((img) => img.index === index);
+        if (foundIndex !== -1 && foundIndex !== 0) {
+          // Reorder array to start from the found image.
+          const reorderedImages = [...images.slice(foundIndex), ...images.slice(0, foundIndex)];
+          images.length = 0;
+          images.push(...reorderedImages);
+        }
       }
     }
   }

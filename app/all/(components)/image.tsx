@@ -52,7 +52,7 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
   return (
     <a
       key={image.id}
-      href={`/?img=${image.index}`}
+      href={`/?img=${image.index}&sorted=1`}
       className="group relative w-full overflow-hidden border border-gray-7 bg-gray-3 transition-colors hover:border-gray-8 focus-visible:border-blue-9 focus-visible:ring-0"
       style={{
         aspectRatio: '1 / 1',
