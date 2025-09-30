@@ -8,7 +8,7 @@ const A: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   if (href && (href.startsWith('/') || href.startsWith('#'))) {
     return (
       <Link
-        className="mdx--link group rounded-sm font-medium text-blue-9 no-underline hover:underline has-[code]:focus-visible:ring-0"
+        className="mdx--link group pointer-events-auto rounded-sm font-medium text-blue-9 no-underline hover:underline has-[code]:focus-visible:ring-0"
         href={href}
       >
         {children}
@@ -18,7 +18,7 @@ const A: React.FC<React.AnchorHTMLAttributes<HTMLAnchorElement>> = ({
 
   return (
     <a
-      className="mdx--link group w-fit rounded-sm font-medium text-blue-9 no-underline hover:underline has-[code]:focus-visible:ring-0"
+      className="mdx--link group pointer-events-auto w-fit rounded-sm font-medium text-blue-9 no-underline hover:underline has-[code]:focus-visible:ring-0"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
