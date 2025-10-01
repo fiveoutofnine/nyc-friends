@@ -33,6 +33,8 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
   const [index, setIndex] = useState<number>(0);
   const [accordionTouched, setAccordionTouched] = useState<boolean>(false);
   const [accordionValue, setAccordionValue] = useState<string>('text');
+  const [hoveredSide, setHoveredSide] = useState<'prev' | 'next' | null>(null);
+  const [focusedSide, setFocusedSide] = useState<'prev' | 'next' | null>(null);
 
   useEffect(() => setMounted(true), []);
 
@@ -121,7 +123,29 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           <Share />
         </IconButton>
       </div>
-      <div className="relative h-full w-full">
+      <div
+        className="relative h-full w-full"
+        onClick={(e) => {
+          // Only navigate on left click, not right click or context menu.
+          if (e.button !== 0) return;
+
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const isLeftHalf = x < rect.width / 2;
+
+          navigate(isLeftHalf ? 'prev' : 'next');
+        }}
+        onMouseMove={(e) => {
+          if (isTouchScreen) return;
+
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const isLeftHalf = x < rect.width / 2;
+
+          setHoveredSide(isLeftHalf ? 'prev' : 'next');
+        }}
+        onMouseLeave={() => setHoveredSide(null)}
+      >
         <NextImage
           key={image.url}
           src={image.url}
@@ -129,51 +153,110 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           width={image.width}
           height={image.height}
           className="animate-fadeIn h-full w-full select-none object-contain"
-          draggable={false}
+          draggable={true}
         />
       </div>
-      {(
-        [
-          {
-            direction: 'prev',
-            className: 'left-0 justify-start hover:bg-gradient-to-r',
-            icon: <ChevronLeft className="size-8 md:size-12" />,
-            ariaLabel: 'Previous artwork',
-          },
-          {
-            direction: 'next',
-            className: 'right-0 justify-end hover:bg-gradient-to-l',
-            icon: <ChevronRight className="size-8 md:size-12" />,
-            ariaLabel: 'Next artwork',
-          },
-        ] satisfies {
-          direction: 'prev' | 'next';
-          className: string;
-          icon: React.ReactNode;
-          ariaLabel: string;
-        }[]
-      ).map(({ direction, className, icon, ariaLabel }) => (
-        <button
-          key={direction}
-          onClick={() => navigate(direction)}
-          className={twMerge(
-            clsx(
-              'group absolute top-0 flex h-full w-1/2 items-center from-black/70 to-transparent px-4 opacity-0 focus:outline-none focus-visible:ring-0 md:px-6',
-              !isTouchScreen
-                ? 'transition-opacity duration-300 hover:opacity-100 focus-visible:bg-gray-3/50 focus-visible:opacity-100'
-                : '',
-              className,
-            ),
-          )}
-          aria-label={ariaLabel}
-        >
-          {!isTouchScreen ? (
-            <span className="hidden text-gray-11 group-hover:flex group-hover:animate-in group-hover:fade-in group-focus-visible:flex group-focus-visible:animate-in group-focus-visible:fade-in">
-              {icon}
-            </span>
-          ) : null}
-        </button>
-      ))}
+      {!isTouchScreen
+        ? (
+            [
+              {
+                direction: 'prev',
+                side: 'left-0 justify-start',
+                gradient: 'bg-gradient-to-r',
+                icon: <ChevronLeft className="size-8 md:size-12" />,
+                ariaLabel: 'Previous artwork',
+              },
+              {
+                direction: 'next',
+                side: 'right-0 justify-end',
+                gradient: 'bg-gradient-to-l',
+                icon: <ChevronRight className="size-8 md:size-12" />,
+                ariaLabel: 'Next artwork',
+              },
+            ] satisfies {
+              direction: 'prev' | 'next';
+              side: string;
+              gradient: string;
+              icon: React.ReactNode;
+              ariaLabel: string;
+            }[]
+          ).map(({ direction, side, gradient, icon, ariaLabel }) => {
+            const isActive = hoveredSide === direction || focusedSide === direction;
+
+            return (
+              <div
+                key={direction}
+                role="button"
+                tabIndex={0}
+                aria-label={ariaLabel}
+                className={twMerge(
+                  clsx(
+                    'absolute top-0 flex h-full w-1/2 cursor-pointer items-center from-black/70 to-transparent px-4 transition-opacity duration-300 focus:outline-none focus-visible:ring-0 md:px-6',
+                    side,
+                    isActive
+                      ? clsx('opacity-100 focus-visible:bg-gray-3/50', gradient)
+                      : 'opacity-0',
+                  ),
+                )}
+                onPointerDown={(e) => {
+                  // Temporarily disable pointer events for right-click to allow
+                  // context menu.
+                  if (e.button === 2) {
+                    const target = e.currentTarget;
+                    target.style.pointerEvents = 'none';
+
+                    requestAnimationFrame(() => {
+                      // Dispatch context menu event to the image beneath.
+                      const event = new MouseEvent('contextmenu', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window,
+                        clientX: e.clientX,
+                        clientY: e.clientY,
+                      });
+                      document.elementFromPoint(e.clientX, e.clientY)?.dispatchEvent(event);
+                    });
+
+                    // Re-enable after context menu closes.
+                    const handleRestore = () => {
+                      if (target && target.style) {
+                        target.style.pointerEvents = 'auto';
+                      }
+                      window.removeEventListener('click', handleRestore);
+                      window.removeEventListener('contextmenu', handleRestore);
+                    };
+
+                    window.addEventListener('click', handleRestore);
+                    window.addEventListener('contextmenu', handleRestore);
+                  }
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(direction);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(direction);
+                  }
+                }}
+                onFocus={() => setFocusedSide(direction)}
+                onBlur={() => setFocusedSide(null)}
+                onMouseEnter={() => setHoveredSide(direction)}
+                onMouseLeave={() => setHoveredSide(null)}
+              >
+                <span
+                  className={clsx(
+                    'pointer-events-none text-gray-11',
+                    isActive ? 'flex animate-in fade-in' : 'hidden',
+                  )}
+                >
+                  {icon}
+                </span>
+              </div>
+            );
+          })
+        : null}
       <Accordion.Root
         type="single"
         value={accordionValue}
