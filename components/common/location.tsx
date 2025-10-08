@@ -30,7 +30,11 @@ const Location: React.FC<LocationProps> = ({ location }) => {
     // prettier-ignore
     if (b === '23rd_8th_ind') [name, bullets, url] = ['23 Street', 'C,E', 'https://maps.app.goo.gl/ukxduoRrgyJtm3UKA'];
     // prettier-ignore
-    if (b === '77th_st_irt') [name, bullets, url] = ['77th Street', '6', 'https://maps.app.goo.gl/a3AjbbxA71N8jC8b6'];
+    if (b === '51st_st') [name, bullets, url] = ['51 Street', '6', 'https://maps.app.goo.gl/jL7hxLpKnsxKjWFe8'];
+    // prettier-ignore
+    if (b === '77th_st_irt') [name, bullets, url] = ['77 Street', '6', 'https://maps.app.goo.gl/a3AjbbxA71N8jC8b6'];
+    // prettier-ignore
+    if (b === 'carroll_st') [name, bullets, url] = ['Carroll Street', 'F,G', 'https://maps.app.goo.gl/QBWjdAwKrEwXaN4a9'];
     // prettier-ignore
     if (b === 'dyckman_ind') [name, bullets, url] = ['Dyckman Street', 'A', 'https://maps.app.goo.gl/CxTkByPynRGk9CAd9'];
     // prettier-ignore
