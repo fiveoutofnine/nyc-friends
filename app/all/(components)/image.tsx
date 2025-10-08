@@ -101,7 +101,18 @@ const GalleryImage: React.FC<GalleryImageProps> = ({ image }) => {
         )}
       >
         <div className="line-clamp-1 select-none flex-wrap whitespace-pre-wrap text-base leading-5">
-          {mounted && image.mdxSource ? <CustomMDX {...image.mdxSource} /> : image.text}
+          {mounted && image.mdxSource ? (
+            <CustomMDX
+              components={{
+                // We override the default `<a>` component to prevent it from
+                // being a nested link.
+                a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => <span {...props} />,
+              }}
+              {...image.mdxSource}
+            />
+          ) : (
+            image.text
+          )}
         </div>
       </div>
     </a>
