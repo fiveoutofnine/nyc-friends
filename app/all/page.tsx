@@ -47,8 +47,9 @@ export default async function Page() {
 
   return (
     <main className="flex min-h-screen flex-col bg-black">
-      <nav className="sticky top-0 z-30 flex w-full items-center bg-black p-4 md:p-6">
+      <nav className="sticky top-0 z-30 flex w-full items-center justify-between bg-black p-4 md:p-6">
         <Friend height={24} />
+        <div className="font-mono text-gray-11">{images.length} TOTAL</div>
       </nav>
       <section className="relative px-4 pb-4 md:px-6 md:pb-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
