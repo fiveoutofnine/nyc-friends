@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## nyc-friends
 
-## Getting Started
+Online museum of [friend.com](https://friend.com) reviews by NYC: [nyc-friends.vercel.app](https://nyc-friends.vercel.app).
 
-First, run the development server:
+## Development
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/fiveoutofnine/nyc-friends.git
+pnpm install
+pnpm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project uses [Drizzle](https://orm.drizzle.team) as its ORM, which stores the image URLs and their metadata.
+Install and set that up:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+echo DATABASE_URL=$DATABASE_URL > .env
+npx drizzle-kit generate
+npx drizzle-kit push
+```
 
-## Learn More
+Then, configure the domain you're serving the images from in [`next.config.ts`](https://github.com/fiveoutofnine/nyc-friends/blob/ad5511508edf56a2832887e906e2d534f96b5178/next.config.ts#L11):
 
-To learn more about Next.js, take a look at the following resources:
+```ts
+const nextConfig: NextConfig = {
+  images: {
+    domains: ['nyc-friends-assets.fiveoutofnine.com'],
+  },
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+};
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Adding/editing location tags
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Images have an [optional `location` metadata field](https://github.com/fiveoutofnine/nyc-friends/blob/ad5511508edf56a2832887e906e2d534f96b5178/lib/db/schema.ts#L86) you can configure in the database to label images on the UI.
+To add, delete, or edit locations, edit the [`<Location />` component](https://github.com/fiveoutofnine/nyc-friends/blob/ad5511508edf56a2832887e906e2d534f96b5178/components/common/location.tsx).
+You can use whatever naming schema you'd like, but make sure it's synced.
+This project uses the following:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+# Template: {location}|{sub-location}
+# Example :  nyc_mta|west_4th
+```
